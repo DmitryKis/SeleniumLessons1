@@ -26,4 +26,6 @@ public class AdminPage {
     public static void checkHeader() {
         getWebDriver().findElement(By.xpath(HEADER));
     }
+
+
 }
