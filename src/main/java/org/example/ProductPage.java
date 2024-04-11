@@ -1,17 +1,23 @@
 package org.example;
 
+import org.example.elements.CartNavElement;
 import org.example.elements.ProductCardElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Map;
 
 import static org.example.LoginPage.getWebDriver;
+import static org.example.fields.Button.BUTTON;
 
 public class ProductPage {
 
     private static String PRODUCT_BOX = "//div[@id='box-product']";
     private static String PRODUCT_TITLE = ".//h1";
+
+    private static WebDriverWait wait = new WebDriverWait(getWebDriver(), 2);
 
     public static void checkCampaingsProductInfoWithCheckStyle(Map<String, String> productCardInfo) throws Exception {
         WebElement productCard = getWebDriver().findElement(By.xpath(PRODUCT_BOX));
@@ -28,4 +34,13 @@ public class ProductPage {
             throw new Exception("Data in product page not equals");
         }
     }
+
+    public static void addToCart(){
+        int initialCounter = Integer.parseInt(CartNavElement.getCartQuantity());
+        BUTTON("Add To Cart").click();
+        wait.until( t -> initialCounter < Integer.parseInt(CartNavElement.getCartQuantity()));
+
+    }
+
+
 }

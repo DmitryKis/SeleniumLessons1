@@ -14,6 +14,8 @@ public class MainPage {
     private static String PRODUCT_CARD_PATH = "(//li[starts-with(@class,'product')])";
     private static String STICKER_PATH = "//div[starts-with(@class,'sticker')]";
     private static String CAMPAIGNS_PRODUCT_PATH = "//div[@id='box-campaigns']//a[@class='link']";
+    private static String MOST_POPULAR_PRODUCT_PATH = "//div[@id='box-most-popular']//a[@class='link']";
+
     private static String LOGOUT_PATH = "//a[text()='Logout']";
     private static String LOGIN_PATH = "//button[@type='submit' and text() = 'Login']";
 
@@ -37,6 +39,10 @@ public class MainPage {
 
     public static WebElement getFirstCampaingsProduct(){
         return getWebDriver().findElement(By.xpath(CAMPAIGNS_PRODUCT_PATH));
+    }
+
+    public static void clickFirstMostPopularProduct(){
+        getWebDriver().findElement(By.xpath(MOST_POPULAR_PRODUCT_PATH)).click();
     }
 
     public static Map<String,String> getCampaingsProductInfoWithCheckStyle() throws Exception {
