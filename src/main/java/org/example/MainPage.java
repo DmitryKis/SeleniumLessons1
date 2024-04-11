@@ -1,6 +1,10 @@
 package org.example;
 
+import org.example.elements.ProductCardElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.Map;
 
 import static org.example.LoginPage.getWebDriver;
 
@@ -8,6 +12,9 @@ public class MainPage {
 
     private static String PRODUCT_CARD_PATH = "(//li[starts-with(@class,'product')])";
     private static String STICKER_PATH = "//div[starts-with(@class,'sticker')]";
+    private static String CAMPAIGNS_PRODUCT_PATH = "//div[@id='box-campaigns']//a[@class='link']";
+
+
 
 
     public static void goTo(){
@@ -22,6 +29,27 @@ public class MainPage {
             }
         }
     }
+
+    public static WebElement getFirstCampaingsProduct(){
+        return getWebDriver().findElement(By.xpath(CAMPAIGNS_PRODUCT_PATH));
+    }
+
+    public static Map<String,String> getCampaingsProductInfoWithCheckStyle() throws Exception {
+        WebElement productCard = getFirstCampaingsProduct();
+        ProductCardElement.checkRegularPriceStyle(productCard);
+        ProductCardElement.checkCampaingsPriceStyle(productCard);
+        ProductCardElement.checkPricesFontSize(productCard);
+        Map<String,String> productInfo = Map.of(
+                "name", productCard.findElement(By.xpath(".//div[@class='name']")).getText(),
+                "regular-price", productCard.findElement(By.xpath(".//s")).getText(),
+                "campaings-price", productCard.findElement(By.xpath(".//strong")).getText()
+        );
+        return productInfo;
+
+    }
+
+
+
 
 
 
