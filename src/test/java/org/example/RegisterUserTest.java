@@ -14,7 +14,7 @@ public class RegisterUserTest {
     }
 
     @Test
-    public void checkTabsTest() throws Exception {
+    public void registerUserTest() throws Exception {
         String password = "1234Oleg";
         String email = RegisterPage.registerTestUser("Oleg", password);
         MainPage.logout();
