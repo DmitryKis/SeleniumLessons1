@@ -7,12 +7,17 @@ import org.openqa.selenium.WebElement;
 import java.util.Map;
 
 import static org.example.LoginPage.getWebDriver;
+import static org.example.fields.InputField.INPUT;
 
 public class MainPage {
 
     private static String PRODUCT_CARD_PATH = "(//li[starts-with(@class,'product')])";
     private static String STICKER_PATH = "//div[starts-with(@class,'sticker')]";
     private static String CAMPAIGNS_PRODUCT_PATH = "//div[@id='box-campaigns']//a[@class='link']";
+    private static String LOGOUT_PATH = "//a[text()='Logout']";
+    private static String LOGIN_PATH = "//button[@type='submit' and text() = 'Login']";
+
+
 
 
 
@@ -45,8 +50,18 @@ public class MainPage {
                 "campaings-price", productCard.findElement(By.xpath(".//strong")).getText()
         );
         return productInfo;
-
     }
+
+    public static void loginAs(String email, String password) {
+        INPUT("Email Address").sendKeys(email);
+        INPUT("Password").sendKeys(password);
+        getWebDriver().findElement(By.xpath(LOGIN_PATH)).click();
+    }
+
+    public static void logout() {
+        getWebDriver().findElement(By.xpath(LOGOUT_PATH)).click();
+    }
+
 
 
 
