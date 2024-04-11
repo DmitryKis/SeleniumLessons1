@@ -6,8 +6,7 @@ import org.openqa.selenium.WebElement;
 import static org.example.LoginPage.getWebDriver;
 
 public class SelectField {
-    private static String SELECT_PATH = "//td[contains(text(),'$name$')]//select";
-
+    private static String SELECT_PATH = "//td[contains(text(),'$name$')]//select | //td/strong[contains(text(),'$name$')]/..//select";
     public static WebElement SELECT(String title){
         return getWebDriver().findElement(By.xpath(SELECT_PATH.replace("$name$", title)));
     }
