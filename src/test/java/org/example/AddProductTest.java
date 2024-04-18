@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static org.example.LoginPage.getWebDriver;
 
 public class AddProductTest {
@@ -15,8 +17,9 @@ public class AddProductTest {
 
     @Test
     public void addProductTest() {
-        CatalogAdminPage.addNewProduct();
-        CatalogAdminPage.validateProduct("garage");
+        String productName = "garage" + new Random().nextInt(100);
+        CatalogAdminPage.addNewProduct(productName);
+        CatalogAdminPage.validateProduct(productName);
     }
 
     @After

@@ -21,10 +21,10 @@ public class CatalogAdminPage {
 
 
 
-    public static void addNewProduct() {
+    public static void addNewProduct(String name) {
         String imagePath = new File("src/main/resources/img.png").getAbsolutePath();
         getWebDriver().findElement(By.xpath("//a[contains(text(),'Add New Product')]")).click();
-        INPUT("Name").sendKeys("garage");
+        INPUT("Name").sendKeys(name);
         INPUT("Code").sendKeys("123213");
         INPUT("Quantity").sendKeys("5");
         INPUT("Upload Images").sendKeys(imagePath);
