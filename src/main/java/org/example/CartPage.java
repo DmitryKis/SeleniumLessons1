@@ -17,6 +17,10 @@ public class CartPage {
         getWebDriver().findElement(By.xpath("//a[text()='Checkout »']")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(TABLE_PATH)));
     }
+
+    public static int getCountOfDifferentProduct(){
+        return getWebDriver().findElements(By.xpath("//div[@id='order_confirmation-wrapper']//td[@class='item']")).size();
+    }
     public static void removeCurrentProduct(){
         int initialProductCounter = getWebDriver().findElements(By.xpath(PRODUCTS_IN_TABLE_PATH)).size();
         BUTTON("Remove").click();

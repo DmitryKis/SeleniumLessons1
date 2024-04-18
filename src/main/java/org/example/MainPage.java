@@ -8,6 +8,7 @@ import java.util.Map;
 
 import static org.example.LoginPage.getWebDriver;
 import static org.example.fields.InputField.INPUT;
+import static org.example.fields.SelectField.SELECT;
 
 public class MainPage {
 

@@ -16,7 +16,7 @@ public class CartTest {
             ProductPage.addToCart();
         }
         CartPage.goTo();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < CartPage.getCountOfDifferentProduct(); i++) {
             CartPage.removeCurrentProduct();
         }
     }
