@@ -26,8 +26,9 @@ public class RegisterPage {
         INPUT("Address 1").sendKeys("Street");
         INPUT("Address 2").sendKeys("21");
         INPUT("Postcode").sendKeys("12332");
-        INPUT("City").sendKeys("inAlabama");
         SELECT("Country").sendKeys("United States");
+        SELECT("Zone/State/Province").sendKeys("Alabama");
+        INPUT("City").sendKeys("inAlabama");
         INPUT("Email").sendKeys(email);
         INPUT("Phone").sendKeys("+1234567890");
         INPUT("Desired Password").sendKeys(password);
