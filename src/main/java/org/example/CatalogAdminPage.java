@@ -1,6 +1,8 @@
 package org.example;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 
@@ -11,14 +13,24 @@ import static org.example.fields.InputField.INPUT;
 import static org.example.fields.SelectField.SELECT;
 
 public class CatalogAdminPage {
+    private static WebDriverWait wait = new WebDriverWait(getWebDriver(), 2);
 
     public static void goTo() {
-        getWebDriver().get("http://localhost/litecart/admin/?app=catalog&doc=catalog");
+        getWebDriver().get("http://localhost/litecart/admin/?app=catalog&doc=catalog&category_id=1");
     }
     public static void validateProduct(String name) {
         getWebDriver().findElement(By.xpath("//td//a[text()='$name$']".replace("$name$", name)));
     }
 
+    public static void validateProductsOpen(){
+        int productsCount = getWebDriver().findElements(By.xpath(" //td[@id='content']//td//a[text() and contains(@href,'product')]")).size();
+        for (int i = 1; i <= productsCount; i++) {
+            getWebDriver().findElement(By.xpath(" (//td[@id='content']//td//a[text() and contains(@href,'product')])[" + i + "]")).click();
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[contains(text(),'Edit Product:')]")));
+            goTo();
+        }
+
+    }
 
 
     public static void addNewProduct() {
