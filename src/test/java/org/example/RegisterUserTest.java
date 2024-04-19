@@ -8,6 +8,7 @@ import static org.example.LoginPage.getWebDriver;
 
 public class RegisterUserTest {
 
+    MainPage mainPage = new MainPage();
     @Before
     public void open(){
         RegisterPage.goTo();
@@ -15,11 +16,12 @@ public class RegisterUserTest {
 
     @Test
     public void checkTabsTest() throws Exception {
+
         String password = "1234Oleg";
         String email = RegisterPage.registerTestUser("Oleg", password);
-        MainPage.logout();
-        MainPage.loginAs(email, password);
-        MainPage.logout();
+        mainPage.logout();
+        mainPage.loginAs(email, password);
+        mainPage.logout();
     }
 
     @After

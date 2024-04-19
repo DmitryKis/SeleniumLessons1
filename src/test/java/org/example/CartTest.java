@@ -1,23 +1,25 @@
 package org.example;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.example.LoginPage.getWebDriver;
 
 public class CartTest {
 
+    MainPage mainPage = new MainPage();
+    ProductPage productPage = new ProductPage();
+    CartPage cartPage = new CartPage();
+
     @Test
     public void addAndRemoveCartTest() {
         for (int i = 0; i < 3; i++) {
-            MainPage.goTo();
-            MainPage.clickFirstMostPopularProduct();
-            ProductPage.addToCart();
+            mainPage.goTo().mostPopularProduct.click();
+            productPage.addToCart();
         }
-        CartPage.goTo();
-        for (int i = 0; i < CartPage.getCountOfDifferentProduct(); i++) {
-            CartPage.removeCurrentProduct();
+        cartPage.goTo();
+        for (int i = 0; i < cartPage.getCountOfDifferentProduct(); i++) {
+            cartPage.removeCurrentProduct();
         }
     }
 

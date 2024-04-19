@@ -6,15 +6,16 @@ import org.junit.Test;
 import static org.example.LoginPage.getWebDriver;
 
 public class ProductStickersCheckTest {
+    MainPage mainPage = new MainPage();
 
     @Before
     public void open(){
-        MainPage.goTo();
+        mainPage.goTo();
     }
 
     @Test
     public void checkTabsTest() throws Exception {
-        MainPage.checkStikers();
+        mainPage.checkStikers();
     }
 
     @After

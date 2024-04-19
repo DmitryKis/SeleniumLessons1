@@ -2,7 +2,6 @@ package org.example;
 
 import org.example.utils.RandomTestData;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import static org.example.LoginPage.getWebDriver;
 import static org.example.fields.InputField.INPUT;
@@ -13,8 +12,9 @@ public class RegisterPage {
     private static String SUBMIT_PATH = "//button[@type='submit']";
 
 
-    public static void goTo(){
+    public static RegisterPage goTo(){
         getWebDriver().get("http://localhost/litecart/en/create_account");
+        return new RegisterPage();
     }
 
     public static String registerTestUser(String firstname, String password ){

@@ -4,8 +4,7 @@ import org.example.elements.CartNavElement;
 import org.example.elements.ProductCardElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Map;
@@ -15,20 +14,17 @@ import static org.example.fields.Button.BUTTON;
 import static org.example.fields.SelectField.SELECT;
 
 public class ProductPage {
-
-    private static String PRODUCT_BOX = "//div[@id='box-product']";
     private static String PRODUCT_TITLE = ".//h1";
 
+    @FindBy(xpath = "//div[@id='box-product']")
+    ProductCardElement productBox;
     private static WebDriverWait wait = new WebDriverWait(getWebDriver(), 2);
 
-    public static void checkCampaingsProductInfoWithCheckStyle(Map<String, String> productCardInfo) throws Exception {
-        WebElement productCard = getWebDriver().findElement(By.xpath(PRODUCT_BOX));
-        ProductCardElement.checkRegularPriceStyle(productCard);
-        ProductCardElement.checkCampaingsPriceStyle(productCard);
-        ProductCardElement.checkPricesFontSize(productCard);
-        String name = productCard.findElement(By.xpath(PRODUCT_TITLE)).getText();
-        String regularPrice = ProductCardElement.getRegularPrice(productCard).getText();
-        String campaingsPrice = ProductCardElement.getCampaingsPrice(productCard).getText();
+    public void checkCampaingsProductInfoWithCheckStyle(Map<String, String> productCardInfo) throws Exception {
+        productBox.checkCampaingsPriceStyle().checkRegularPriceStyle().checkPricesFontSize();
+        String name = productBox.findElement(By.xpath(PRODUCT_TITLE)).getText();
+        String regularPrice = productBox.regularPrice.getText();
+        String campaingsPrice = productBox.campaingsPrice.getText();
         // проверка заголовка
         if (!regularPrice.equals(productCardInfo.get("regular-price")) &&
                 !campaingsPrice.equals(productCardInfo.get("campaings-price")) &&
@@ -37,14 +33,15 @@ public class ProductPage {
         }
     }
 
-    public static void addToCart(){
-        int initialCounter = Integer.parseInt(CartNavElement.getCartQuantity());
+    public ProductPage addToCart(){
+        CartNavElement cartNavElement = new CartNavElement();
+        int initialCounter = Integer.parseInt(cartNavElement.getCartQuantity());
         try{
             SELECT("Size").sendKeys("Small");
         } catch (NoSuchElementException ignore){}
         BUTTON("Add To Cart").click();
-        wait.until( t -> initialCounter < Integer.parseInt(CartNavElement.getCartQuantity()));
-
+        wait.until( t -> initialCounter < Integer.parseInt(cartNavElement.getCartQuantity()));
+        return this;
     }
 
 

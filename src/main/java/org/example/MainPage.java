@@ -3,33 +3,40 @@ package org.example;
 import org.example.elements.ProductCardElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.PageFactoryFinder;
 
 import java.util.Map;
 
 import static org.example.LoginPage.getWebDriver;
 import static org.example.fields.InputField.INPUT;
-import static org.example.fields.SelectField.SELECT;
 
 public class MainPage {
 
     private static String PRODUCT_CARD_PATH = "(//li[starts-with(@class,'product')])";
     private static String STICKER_PATH = "//div[starts-with(@class,'sticker')]";
-    private static String CAMPAIGNS_PRODUCT_PATH = "//div[@id='box-campaigns']//a[@class='link']";
-    private static String MOST_POPULAR_PRODUCT_PATH = "//div[@id='box-most-popular']//a[@class='link']";
 
-    private static String LOGOUT_PATH = "//a[text()='Logout']";
-    private static String LOGIN_PATH = "//button[@type='submit' and text() = 'Login']";
+    ProductCardElement firstCampaingsProduct;
+
+    public ProductCardElement mostPopularProduct;
+
+    @FindBy(xpath = "//a[text()='Logout']")
+    WebElement logout;
+    @FindBy(xpath = "//button[@type='submit' and text() = 'Login']")
+    WebElement login;
 
 
 
-
-
-
-    public static void goTo(){
+    public MainPage goTo(){
         getWebDriver().get("http://localhost/litecart/en/");
+        PageFactory.initElements(getWebDriver(), this);
+        firstCampaingsProduct = new ProductCardElement("//div[@id='box-campaigns']//a[@class='link']");
+        mostPopularProduct = new ProductCardElement("//div[@id='box-most-popular']//a[@class='link']");
+        return this;
     }
 
-    public static void checkStikers() throws Exception {
+    public void checkStikers() throws Exception {
         int productsCount = getWebDriver().findElements(By.xpath(PRODUCT_CARD_PATH)).size();
         for (int i = 1; i < productsCount; i++) {
             if (getWebDriver().findElements(By.xpath(PRODUCT_CARD_PATH + "[" + i + "]"+ STICKER_PATH)).size() != 1){
@@ -38,35 +45,24 @@ public class MainPage {
         }
     }
 
-    public static WebElement getFirstCampaingsProduct(){
-        return getWebDriver().findElement(By.xpath(CAMPAIGNS_PRODUCT_PATH));
-    }
-
-    public static void clickFirstMostPopularProduct(){
-        getWebDriver().findElement(By.xpath(MOST_POPULAR_PRODUCT_PATH)).click();
-    }
-
-    public static Map<String,String> getCampaingsProductInfoWithCheckStyle() throws Exception {
-        WebElement productCard = getFirstCampaingsProduct();
-        ProductCardElement.checkRegularPriceStyle(productCard);
-        ProductCardElement.checkCampaingsPriceStyle(productCard);
-        ProductCardElement.checkPricesFontSize(productCard);
+    public Map<String,String> getCampaingsProductInfoWithCheckStyle() throws Exception {
+        firstCampaingsProduct.checkCampaingsPriceStyle().checkRegularPriceStyle().checkRegularPriceStyle();
         Map<String,String> productInfo = Map.of(
-                "name", productCard.findElement(By.xpath(".//div[@class='name']")).getText(),
-                "regular-price", productCard.findElement(By.xpath(".//s")).getText(),
-                "campaings-price", productCard.findElement(By.xpath(".//strong")).getText()
+                "name", firstCampaingsProduct.findElement(By.xpath(".//div[@class='name']")).getText(),
+                "regular-price", firstCampaingsProduct.regularPrice.getText(),
+                "campaings-price", firstCampaingsProduct.campaingsPrice.getText()
         );
         return productInfo;
     }
 
-    public static void loginAs(String email, String password) {
+    public void loginAs(String email, String password) {
         INPUT("Email Address").sendKeys(email);
         INPUT("Password").sendKeys(password);
-        getWebDriver().findElement(By.xpath(LOGIN_PATH)).click();
+        login.click();
     }
 
-    public static void logout() {
-        getWebDriver().findElement(By.xpath(LOGOUT_PATH)).click();
+    public void logout() {
+        logout.click();
     }
 
 
